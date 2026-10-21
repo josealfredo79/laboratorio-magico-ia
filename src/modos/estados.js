@@ -4,6 +4,7 @@ import * as THREE from "three";
 import { liberar } from "../escena/escena.js";
 import { crearEtiqueta } from "../escena/efectos.js";
 import { listaRetos } from "../ui/hud.js";
+import { puntosPorTiempo } from "../ui/ranking.js";
 import contenido from "../contenido/estados.json";
 
 const V = THREE.Vector3;
@@ -144,6 +145,7 @@ export default {
 
   iniciar(ctx) {
     e = {
+      inicio: performance.now(),
       capa: new THREE.Group(),
       t: -20,
       red: redDeHielo(),
@@ -199,11 +201,11 @@ export default {
     if (!e.completado && e.visitados.size === 3) {
       e.completado = true;
       ctx.sonido.exito();
-      ctx.hud.tarjetas({
+      ctx.terminar({
         logro: ["¡Recorriste los 3 estados!", "Fusión a 0 °C y ebullición a 100 °C (a nivel del mar)."],
         dato: ["¿Sabías que…?", contenido.datos[Math.floor(Math.random() * contenido.datos.length)]],
         carrera: ["Si te gustó, estudia:", contenido.carreras],
-      });
+      }, puntosPorTiempo((performance.now() - e.inicio) / 1000, 1000));
     }
 
     ctx.hud.stats(

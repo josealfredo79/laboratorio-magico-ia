@@ -4,6 +4,7 @@ import * as THREE from "three";
 import { liberar } from "../escena/escena.js";
 import { crearExplosion, crearEtiqueta } from "../escena/efectos.js";
 import { listaRetos } from "../ui/hud.js";
+import { puntosPorTiempo } from "../ui/ranking.js";
 import contenido from "../contenido/cargas.json";
 
 const V = THREE.Vector3;
@@ -120,6 +121,7 @@ export default {
 
   iniciar(ctx) {
     e = {
+      inicio: performance.now(),
       capa: new THREE.Group(),
       signos: new Map(), // id de mano -> +1 / −1
       punos: new Map(), // id de mano -> estaba en puño
@@ -199,11 +201,11 @@ export default {
     if (!e.completado && Object.values(e.retos).every(Boolean)) {
       e.completado = true;
       ctx.sonido.exito();
-      ctx.hud.tarjetas({
+      ctx.terminar({
         logro: ["¡Dominaste la electricidad!", "Atrajiste, repeliste y produjiste una descarga."],
         dato: ["¿Sabías que…?", contenido.datos[Math.floor(Math.random() * contenido.datos.length)]],
         carrera: ["Si te gustó, estudia:", contenido.carreras],
-      });
+      }, puntosPorTiempo((performance.now() - e.inicio) / 1000, 1000));
     }
 
     const fuerza = Math.min(4 / (r * r), 1);

@@ -11,7 +11,10 @@ App web para feria vocacional: la cámara web reconoce manos, cara y gestos (Med
 ## Controles
 - Mano: apuntar y mantener 1.3 s sobre un botón = clic. Pellizco (pulgar+índice) = agarrar.
 - Sin cámara: el ratón hace de mano (clic sostenido = pellizco).
-- Teclas: `1`–`9` actividades (orden de `src/modos/index.js`), `D` modo científico, `Esc` menú, `F` FPS.
+- Teclas: `1`–`9` actividades (orden de `src/modos/index.js`), `D` modo científico, `Esc` menú, `F` FPS, `R` reinicia el ranking.
+- Sin nadie: 20 s en el menú → bienvenida (`src/ui/bienvenida.js`); 60 s en una actividad → menú. `?prueba` en la URL desactiva ambos.
+- Al terminar, una actividad llama `ctx.terminar(tarjetas, puntos)`: muestra las tarjetas y registra en el ranking del día (`src/ui/ranking.js`, localStorage). `puntosPorTiempo(segundos, máximo)` premia la rapidez.
+- Feria: `feria/iniciar-feria.bat` → `scripts/feria.sh` (build + preview :4173) + Chrome quiosco. Guía del operador: `feria/LEEME.md`.
 
 ## Actividades
 | Tecla | id | Detecta | Reto |

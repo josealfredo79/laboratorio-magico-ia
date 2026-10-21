@@ -4,6 +4,7 @@ import * as THREE from "three";
 import { HandLandmarker } from "@mediapipe/tasks-vision";
 import { liberar } from "../escena/escena.js";
 import { listaRetos } from "../ui/hud.js";
+import { puntosPorTiempo } from "../ui/ranking.js";
 import contenido from "../contenido/rayosx.json";
 
 const V = THREE.Vector3;
@@ -57,7 +58,7 @@ export default {
 
   iniciar(ctx) {
     document.body.classList.add("rayosx");
-    e = { capa: new THREE.Group(), encontrados: new Set(), apuntado: null, sostenido: 0, completado: false };
+    e = { inicio: performance.now(), capa: new THREE.Group(), encontrados: new Set(), apuntado: null, sostenido: 0, completado: false };
     ctx.escena.add(e.capa);
 
     e.material = new THREE.MeshStandardMaterial({ color: 0xe8f4ff, emissive: 0x6fb6ff, emissiveIntensity: 0.5 });
@@ -211,11 +212,11 @@ export default {
     if (!e.completado && e.encontrados.size === RETOS.length) {
       e.completado = true;
       ctx.sonido.exito();
-      ctx.hud.tarjetas({
+      ctx.terminar({
         logro: ["¡Encontraste los 5 huesos!", "Cráneo, clavícula, costillas, columna y húmero."],
         dato: ["¿Sabías que…?", contenido.datos[Math.floor(Math.random() * contenido.datos.length)]],
         carrera: ["Si te gustó, estudia:", contenido.carreras],
-      });
+      }, puntosPorTiempo((performance.now() - e.inicio) / 1000, 1500));
     }
     ctx.hud.stats(`Encuentra: ${listaRetos(RETOS.map((id) => [contenido.huesos[id].nombre, e.encontrados.has(id)]))}`);
   },

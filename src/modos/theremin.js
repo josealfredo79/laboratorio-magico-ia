@@ -4,6 +4,7 @@ import * as Tone from "tone";
 import { liberar } from "../escena/escena.js";
 import { crearEtiqueta } from "../escena/efectos.js";
 import { listaRetos } from "../ui/hud.js";
+import { puntosPorTiempo } from "../ui/ranking.js";
 import { sonidoActivo } from "../ui/sonido.js";
 import contenido from "../contenido/theremin.json";
 
@@ -62,7 +63,7 @@ export default {
   descripcion: "Haz música moviendo las manos en el aire",
 
   iniciar(ctx) {
-    e = { capa: new THREE.Group(), indice: 0, sostenido: 0, fase: 0, f: 440, volumen: 0, avisoAudio: 0 };
+    e = { inicio: performance.now(), capa: new THREE.Group(), indice: 0, sostenido: 0, fase: 0, f: 440, volumen: 0, avisoAudio: 0 };
     ctx.escena.add(e.capa);
     e.audio = crearAudio();
 
@@ -138,11 +139,11 @@ export default {
         if (e.indice === OBJETIVOS.length) {
           ctx.sonido.exito();
           ctx.hud.instruccion("🎶 ¡Eres músico/a científico/a! Ahora toca libremente.");
-          ctx.hud.tarjetas({
+          ctx.terminar({
             logro: ["¡Afinaste las 4 notas!", "La4 = 440 Hz, Do5 = 523 Hz, Mi4 = 330 Hz y Sol4 = 392 Hz."],
             dato: ["¿Sabías que…?", contenido.datos[Math.floor(Math.random() * contenido.datos.length)]],
             carrera: ["Si te gustó, estudia:", contenido.carreras],
-          });
+          }, puntosPorTiempo((performance.now() - e.inicio) / 1000, 1500));
         }
       }
     }

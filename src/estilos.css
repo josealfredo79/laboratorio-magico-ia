@@ -181,3 +181,38 @@ html, body {
 
 /* ---------- Rayos X: la cámara se ve como radiografía ---------- */
 body.rayosx #camara { filter: grayscale(1) invert(0.9) brightness(0.35) sepia(1) hue-rotate(170deg) saturate(2.5); }
+
+/* ---------- Ranking ---------- */
+.ranking {
+  background: var(--panel); border: 2px solid var(--acento2); border-radius: 20px;
+  padding: 14px 22px; font-size: clamp(16px, 1.3vw, 21px); min-width: 320px;
+}
+.ranking b { display: block; margin-bottom: 6px; font-size: clamp(18px, 1.5vw, 24px); }
+.ranking p { margin: 0; color: var(--tenue); }
+.ranking ol { margin: 0; padding-left: 28px; }
+.ranking li span { display: inline-block; }
+.ranking li span:first-child { min-width: 180px; }
+.ranking li span:last-child { color: var(--acento); font-weight: 700; }
+#menu-ranking { margin-top: 3vh; }
+
+/* ---------- Bienvenida (nadie jugando) ---------- */
+#bienvenida {
+  position: absolute; inset: 0; box-sizing: border-box; padding: 6vh 4vw;
+  display: flex; flex-direction: column; justify-content: space-between; align-items: center;
+  text-align: center; background: radial-gradient(circle at center, transparent 30%, rgba(5, 6, 15, 0.85));
+}
+#bienvenida h1 {
+  margin: 0; font-size: clamp(48px, 7vw, 110px);
+  background: linear-gradient(90deg, var(--acento), var(--acento2));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.bienvenida-abajo { display: flex; flex-direction: column; align-items: center; gap: 3vh; width: 100%; }
+.llamado {
+  margin: 0; font-size: clamp(30px, 3.6vw, 60px); font-weight: 800;
+  animation: latido 1.4s ease-in-out infinite;
+}
+@keyframes latido { 50% { transform: scale(1.08); text-shadow: 0 0 30px var(--acento); } }
+.bienvenida-fila {
+  display: grid; grid-template-columns: 2fr 1fr; gap: 24px; width: min(1500px, 92vw); text-align: left;
+}
+.bienvenida-fila .tarjeta { animation: none; }

@@ -3,7 +3,7 @@
 import { chromium } from "playwright";
 import { mkdir } from "node:fs/promises";
 
-const URL = process.env.URL ?? "http://localhost:5173";
+const URL = process.env.URL ?? "http://localhost:5173/?prueba"; // ?prueba: sin bienvenida ni salida por inactividad
 const CAPTURAS = process.env.CAPTURAS ?? "capturas";
 await mkdir(CAPTURAS, { recursive: true });
 
@@ -129,13 +129,31 @@ for (let reto = 0; reto < 4; reto++) {
     await espera(400);
   }
 }
+// Final: tarjetas con puntos y nombre de científico/a en el ranking.
+for (let t = 0; t < 120 && (await leer()).fase !== "final"; t++) await espera(1000);
 await espera(1000);
 await captura("3-final");
+const logro = await pagina.textContent(".tarjeta.logro");
+comprobar(/pts/.test(logro) && /#\d+/.test(logro), "Moléculas: puntaje registrado en el ranking");
 
 await pagina.keyboard.press("Escape");
 await espera(500);
 const enMenu = await pagina.isVisible("#menu");
 console.log(enMenu ? "✔ Esc vuelve al menú" : "✘ Esc no volvió al menú");
+comprobar((await pagina.textContent("#menu-ranking")).includes("pts"), "Menú: muestra el ranking del día");
+await captura("9-menu-ranking");
+
+// Pantalla de bienvenida: sin ?prueba aparece tras 20 s sin nadie frente a la cámara.
+await pagina.goto(URL.replace("?prueba", ""));
+await pagina.waitForSelector("#carga.oculto", { state: "attached", timeout: 60000 });
+await espera(24000);
+comprobar(await pagina.isVisible("#bienvenida"), "Bienvenida: aparece cuando nadie juega");
+comprobar((await pagina.textContent("#bienvenida-ranking")).includes("pts"), "Bienvenida: muestra el ranking");
+await captura("10-bienvenida");
+await pagina.mouse.move(400, 400);
+await pagina.mouse.move(800, 500, { steps: 5 });
+await espera(1500);
+comprobar(!(await pagina.isVisible("#bienvenida")) && (await pagina.isVisible("#menu")), "Bienvenida: se quita al detectar a alguien");
 
 await navegador.close();
 if (errores.length) {

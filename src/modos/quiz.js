@@ -37,11 +37,11 @@ function terminar(ctx) {
   const nivel = e.aciertos === PREGUNTAS ? "¡Perfecto! 🏆" : e.aciertos >= PREGUNTAS / 2 ? "¡Muy bien! 🌟" : "¡Sigue aprendiendo! 💪";
   e.caja.textContent = `${nivel} Acertaste ${e.aciertos} de ${PREGUNTAS}`;
   ctx.sonido.exito();
-  ctx.hud.tarjetas({
+  ctx.terminar({
     logro: [`${e.aciertos} de ${PREGUNTAS} respuestas correctas`, "Repasaste física, química, biología e IA."],
     dato: ["¿Sabías que…?", "Las preguntas que fallaste son las que más aprendes: tu cerebro recuerda mejor después de equivocarse."],
     carrera: ["Si te gustó, estudia:", contenido.carreras],
-  });
+  }, e.aciertos * 100);
 }
 
 export default {

@@ -4,6 +4,7 @@ import { liberar } from "../escena/escena.js";
 import { crearExplosion } from "../escena/efectos.js";
 import { crearBotonera } from "../ui/botonera.js";
 import { listaRetos } from "../ui/hud.js";
+import { puntosPorTiempo } from "../ui/ranking.js";
 import contenido from "../contenido/gravedad.json";
 
 const V = THREE.Vector3;
@@ -85,11 +86,11 @@ function canasta(ctx) {
 
   if (e.cestas.size === PLANETAS.length && !e.completado) {
     e.completado = true;
-    ctx.hud.tarjetas({
+    ctx.terminar({
       logro: ["¡Encestaste en los 4 mundos!", "Mismo brazo, distinta gravedad: en la Luna la pelota sube unas 6 veces más alto que en la Tierra."],
       dato: ["¿Sabías que…?", contenido.datos[Math.floor(Math.random() * contenido.datos.length)]],
       carrera: ["Si te gustó, estudia:", contenido.carreras],
-    });
+    }, puntosPorTiempo((performance.now() - e.inicio) / 1000, 3000));
   }
 }
 
@@ -154,6 +155,7 @@ export default {
   iniciar(ctx) {
     const { vista } = ctx;
     e = {
+      inicio: performance.now(),
       capa: new THREE.Group(),
       sueloY: -vista.mundoAlto / 2 + 0.8,
       fase: "lista",

@@ -311,11 +311,11 @@ export default {
         estado.efectos.push(crearExplosion(estado.capa, new V(0, 0, 0), undefined, 400));
         ctx.sonido.exito();
         ctx.hud.instruccion("🏆 ¡Completaste las 4 moléculas!");
-        ctx.hud.tarjetas({
-          logro: [`¡Eres químico/a! ⭐ ${estado.puntos} pts`, "Formaste agua, dióxido de carbono, metano y amoníaco."],
+        ctx.terminar({
+          logro: ["¡Eres químico/a!", "Formaste agua, dióxido de carbono, metano y amoníaco."],
           dato: ["Lo que aprendiste", contenido.concepto],
           carrera: ["Si te gustó, estudia:", contenido.carreras],
-        });
+        }, estado.puntos);
       }
     } else if (estado.fase === "final") {
       ctx.hud.stats(`Volviendo al menú en ${Math.ceil(estado.espera)}…`);

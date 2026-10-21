@@ -8,10 +8,24 @@ import { crearHud } from "./ui/hud.js";
 import { crearCursores } from "./ui/cursores.js";
 import { crearMenu } from "./ui/menu.js";
 import { sonido } from "./ui/sonido.js";
+import { ranking, crearPanelRanking } from "./ui/ranking.js";
+import { crearBienvenida } from "./ui/bienvenida.js";
 import { MODOS, DISPONIBLES } from "./modos/index.js";
 
 const video = document.getElementById("camara");
 const hud = crearHud();
+
+// Sin nadie frente a la cámara: tras 20 s en el menú sale la bienvenida,
+// y tras 60 s dentro de una actividad se vuelve al menú.
+const BIENVENIDA_TRAS = 20000;
+const SALIR_DE_ACTIVIDAD_TRAS = 60000;
+// ?prueba desactiva esos temporizadores (scripts/prueba.js).
+const modoPrueba = new URLSearchParams(location.search).has("prueba");
+
+// Evita que la pantalla se apague durante la feria.
+function mantenerPantallaEncendida() {
+  navigator.wakeLock?.request("screen").catch(() => {});
+}
 
 async function arrancar() {
   hud.carga("📷 Encendiendo la cámara…");
@@ -30,10 +44,24 @@ async function arrancar() {
   const cursores = crearCursores();
 
   let modo = null;
-  const ctx = { ...escena, video, hud, sonido, manos: [], cara: null, pose: null, salir: () => activar(null) };
+  const ctx = {
+    ...escena, video, hud, sonido, manos: [], cara: null, pose: null,
+    salir: () => activar(null),
+    // Cierre común de una actividad: tarjetas + registro en el ranking del día.
+    terminar(tarjetas, puntos) {
+      const { alias, lugar } = ranking.registrar(modo.id, puntos);
+      const [titulo, texto] = tarjetas.logro;
+      const medalla = lugar <= 5 ? `🏆 ¡Lugar ${lugar} del día como ${alias}!` : `🔬 Eres ${alias}`;
+      hud.tarjetas({ ...tarjetas, logro: [titulo, `${texto} ⭐ ${puntos} pts · ${medalla}`] });
+      panelMenu.pintar();
+    },
+  };
   const menu = crearMenu(MODOS, (m) => activar(m));
+  const panelMenu = crearPanelRanking(document.getElementById("menu-ranking"), MODOS);
+  const bienvenida = crearBienvenida({ escena: escena.escena, menu, modos: MODOS });
 
   function activar(nuevo) {
+    bienvenida.ocultar();
     if (modo) modo.detener(ctx);
     modo = nuevo;
     ctx.cara = null;
@@ -58,14 +86,20 @@ async function arrancar() {
     } else {
       hud.modo(null);
       menu.mostrar();
+      panelMenu.pintar();
     }
   }
 
   document.getElementById("volver").addEventListener("click", () => activar(null));
 
-  // Teclas de depuración: 1–9 modos, Esc menú, D modo científico, F fps.
+  // Teclas del operador: 1–9 modos, Esc menú, D modo científico, F fps, R reinicia el ranking.
   addEventListener("keydown", (e) => {
     if (e.key === "Escape") activar(null);
+    else if (e.key.toLowerCase() === "r") {
+      ranking.reiniciar();
+      panelMenu.pintar();
+      hud.aviso("🏆 Ranking del día reiniciado", "ok");
+    }
     else if (e.key >= "1" && e.key <= "9" && DISPONIBLES[e.key - 1]) activar(DISPONIBLES[e.key - 1]);
     else if (e.key.toLowerCase() === "d") activar(DISPONIBLES.find((m) => m.id === "cientifico"));
     else if (e.key.toLowerCase() === "f") document.getElementById("fps").classList.toggle("oculto");
@@ -73,8 +107,14 @@ async function arrancar() {
 
   hud.carga(null);
   menu.mostrar();
+  panelMenu.pintar();
+  mantenerPantallaEncendida();
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") mantenerPantallaEncendida();
+  });
 
   let previo = performance.now();
+  let ultimaPresencia = previo;
   let cuadros = 0;
   let inicioFps = previo;
 
@@ -95,10 +135,22 @@ async function arrancar() {
     const ctxCuadro = manos === ctx.manos ? ctx : { ...ctx, manos };
 
     cursores.actualizar(manos, ahora);
+    if (manos.length) ultimaPresencia = ahora;
+    const sinNadie = ahora - ultimaPresencia;
+    if (!modoPrueba && modo && sinNadie > SALIR_DE_ACTIVIDAD_TRAS) activar(null);
+    if (!modoPrueba && !modo) {
+      if (sinNadie > BIENVENIDA_TRAS) bienvenida.mostrar();
+      else bienvenida.ocultar();
+    }
+
     // Un error en una actividad no debe congelar el stand: se registra y se vuelve al menú.
     try {
       if (modo) modo.actualizar(ctxCuadro, dt);
-      else menu.actualizar(manos);
+      else if (bienvenida.visible) bienvenida.actualizar(dt);
+      else {
+        menu.actualizar(manos);
+        panelMenu.actualizar(dt);
+      }
     } catch (error) {
       console.error(`Error en la actividad "${modo?.id}":`, error);
       hud.aviso("😅 Algo falló en esta actividad. Volvemos al menú.", "error", 4000);

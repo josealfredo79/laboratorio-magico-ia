@@ -4,6 +4,7 @@ import * as THREE from "three";
 import { liberar } from "../escena/escena.js";
 import { crearEtiqueta } from "../escena/efectos.js";
 import { listaRetos } from "../ui/hud.js";
+import { puntosPorTiempo } from "../ui/ranking.js";
 import contenido from "../contenido/ojo.json";
 
 const V = THREE.Vector3;
@@ -165,6 +166,7 @@ export default {
   iniciar(ctx) {
     const { vista } = ctx;
     e = {
+      inicio: performance.now(),
       capa: new THREE.Group(),
       luz: 0.5,
       pupilaMm: 4,
@@ -236,11 +238,11 @@ export default {
     if (!e.completado && Object.values(e.retos).every(Boolean)) {
       e.completado = true;
       ctx.sonido.exito();
-      ctx.hud.tarjetas({
+      ctx.terminar({
         logro: ["¡Entendiste cómo ves!", "La pupila regula la luz, el cristalino enfoca y la retina capta la imagen."],
         dato: ["¿Sabías que…?", contenido.datos[Math.floor(Math.random() * contenido.datos.length)]],
         carrera: ["Si te gustó, estudia:", contenido.carreras],
-      });
+      }, puntosPorTiempo((performance.now() - e.inicio) / 1000, 1000));
     }
 
     ctx.hud.stats(
