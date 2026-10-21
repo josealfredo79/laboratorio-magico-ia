@@ -1,0 +1,17 @@
+{
+  "preguntas": [
+    { "texto": "El agua siempre hierve a 100 °C, sin importar la altura.", "respuesta": false, "explicacion": "Depende de la presión: en la Ciudad de México hierve a unos 93 °C." },
+    { "texto": "En la Luna pesas menos que en la Tierra, pero tu masa es la misma.", "respuesta": true, "explicacion": "El peso depende de la gravedad; la masa es la cantidad de materia." },
+    { "texto": "El carbono puede formar 4 enlaces.", "respuesta": true, "explicacion": "Su valencia es 4, como en el metano (CH₄)." },
+    { "texto": "Dos cargas positivas se atraen.", "respuesta": false, "explicacion": "Cargas iguales se repelen; solo las opuestas se atraen." },
+    { "texto": "El sonido viaja más rápido que la luz.", "respuesta": false, "explicacion": "La luz va a 300 000 km/s; el sonido en el aire, a solo 343 m/s." },
+    { "texto": "Un adulto tiene 206 huesos.", "respuesta": true, "explicacion": "Al nacer son unos 300, pero varios se fusionan al crecer." },
+    { "texto": "La pupila se hace más grande cuando hay poca luz.", "respuesta": true, "explicacion": "Se abre para dejar entrar más luz, hasta unos 8 mm." },
+    { "texto": "La molécula de agua es recta, con un ángulo de 180°.", "respuesta": false, "explicacion": "Es angular: 104.5°. La de CO₂ sí es recta." },
+    { "texto": "Una IA puede reconocer tu mano usando 21 puntos.", "respuesta": true, "explicacion": "Es justo lo que hace este laboratorio con MediaPipe." },
+    { "texto": "En Júpiter la gravedad es más fuerte que en la Tierra.", "respuesta": true, "explicacion": "Es de 24.8 m/s², unas 2.5 veces la terrestre." },
+    { "texto": "El hielo seco es agua congelada.", "respuesta": false, "explicacion": "Es dióxido de carbono (CO₂) sólido, a −78.5 °C." },
+    { "texto": "En el vacío, un objeto pesado cae más rápido que uno ligero.", "respuesta": false, "explicacion": "Sin aire caen igual: lo comprobaron con un martillo y una pluma en la Luna." }
+  ],
+  "carreras": "Cualquier carrera de ciencia e ingeniería · Docencia en Ciencias · Divulgación Científica"
+}

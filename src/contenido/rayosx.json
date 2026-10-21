@@ -1,0 +1,21 @@
+{
+  "concepto": "Los rayos X atraviesan la piel y los músculos, pero los huesos los detienen. Por eso los huesos se ven blancos en una radiografía.",
+  "huesos": {
+    "craneo": { "nombre": "Cráneo", "dato": "Protege tu cerebro. Cráneo y cara suman 22 huesos." },
+    "clavicula": { "nombre": "Clavícula", "dato": "Une el brazo con el tronco; es de los huesos que más se fracturan." },
+    "costillas": { "nombre": "Costillas", "dato": "12 pares de costillas protegen tu corazón y tus pulmones." },
+    "columna": { "nombre": "Columna vertebral", "dato": "33 vértebras te sostienen y protegen la médula espinal." },
+    "humero": { "nombre": "Húmero", "dato": "Es el hueso del brazo: va del hombro al codo." },
+    "radio": { "nombre": "Radio y cúbito", "dato": "Dos huesos en el antebrazo que te permiten girar la mano." },
+    "pelvis": { "nombre": "Pelvis", "dato": "Sostiene el peso de toda la parte superior del cuerpo." },
+    "femur": { "nombre": "Fémur", "dato": "El hueso más largo y fuerte de tu cuerpo." },
+    "tibia": { "nombre": "Tibia y peroné", "dato": "Los huesos de la pierna; la tibia carga casi todo el peso." },
+    "mano": { "nombre": "Mano", "dato": "Cada mano tiene 27 huesos. Entre manos y pies tienes 106 de tus 206 huesos." }
+  },
+  "datos": [
+    "Un adulto tiene 206 huesos; un bebé nace con alrededor de 300 que después se fusionan.",
+    "Wilhelm Röntgen descubrió los rayos X en 1895; la primera radiografía fue la mano de su esposa.",
+    "El hueso más pequeño es el estribo, dentro del oído: mide unos 3 mm."
+  ],
+  "carreras": "Medicina · Radiología e Imagen · Ingeniería Biomédica · Fisioterapia"
+}

@@ -1,0 +1,9 @@
+{
+  "concepto": "Una red neuronal entrenada con miles de imágenes encuentra 21 puntos clave en cada mano y 478 en tu cara, 30 veces por segundo.",
+  "datos": [
+    "Con estos puntos se reconocen gestos, se controlan videojuegos y se traduce lengua de señas.",
+    "La IA no ve 'una mano': ve números. Cada punto es una coordenada (x, y, z).",
+    "Las 52 expresiones de la cara (sonrisa, parpadeo, cejas) se usan para animar avatares y personajes."
+  ],
+  "carreras": "Ingeniería en Software · Inteligencia Artificial · Ciencia de Datos · Mecatrónica"
+}

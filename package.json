@@ -1,0 +1,23 @@
+{
+  "name": "laboratorio-magico-ia",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vite build",
+    "preview": "vite preview --host",
+    "modelos": "node scripts/descargar-modelos.js",
+    "prueba": "node scripts/prueba.js"
+  },
+  "dependencies": {
+    "@mediapipe/tasks-vision": "^1.1.1",
+    "cannon-es": "^0.20.0",
+    "three": "^0.186.1",
+    "tone": "^15.1.22"
+  },
+  "devDependencies": {
+    "playwright": "^1.64.1",
+    "vite": "^7.1.0"
+  }
+}

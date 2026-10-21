@@ -1,0 +1,36 @@
+{
+  "concepto": "Cada átomo puede formar un número fijo de enlaces (su valencia): H forma 1, O forma 2, N forma 3 y C forma 4.",
+  "carreras": "Ingeniería Química · Química Farmacéutico-Biológica · Ciencia de Materiales",
+  "H2O": {
+    "datos": [
+      "El agua es la única sustancia común que existe de forma natural en la Tierra como sólido, líquido y gas.",
+      "El hielo flota porque es menos denso que el agua líquida: sus moléculas forman una red con huecos.",
+      "Alrededor del 60 % del cuerpo de una persona adulta es agua."
+    ],
+    "carreras": "Ingeniería Química · Ingeniería Ambiental · Ingeniería Hidráulica"
+  },
+  "CO2": {
+    "datos": [
+      "Las plantas toman CO₂ del aire y, con luz solar, lo convierten en azúcar y oxígeno (fotosíntesis).",
+      "El hielo seco es CO₂ sólido: a presión normal pasa directo a gas a −78.5 °C.",
+      "Las burbujas de los refrescos son CO₂ disuelto a presión."
+    ],
+    "carreras": "Ciencias Ambientales · Ingeniería Química · Biología"
+  },
+  "CH4": {
+    "datos": [
+      "El metano es el componente principal del gas natural que se usa para cocinar.",
+      "Las vacas producen metano al digerir el pasto.",
+      "Su forma es un tetraedro: los 4 hidrógenos se separan lo más posible (109.5°)."
+    ],
+    "carreras": "Ingeniería en Energías Renovables · Ingeniería Petrolera · Ingeniería Química"
+  },
+  "NH3": {
+    "datos": [
+      "El amoníaco se usa para fabricar fertilizantes que ayudan a producir alimentos en todo el mundo.",
+      "Se fabrica con el proceso Haber-Bosch, uniendo nitrógeno del aire con hidrógeno.",
+      "Su forma es una pirámide: el nitrógeno tiene un par de electrones libres que empuja a los hidrógenos."
+    ],
+    "carreras": "Ingeniería Química · Agronomía · Química Industrial"
+  }
+}

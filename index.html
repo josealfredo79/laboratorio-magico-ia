@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Laboratorio Mágico IA</title>
+  </head>
+  <body>
+    <video id="camara" playsinline muted></video>
+    <div id="lienzo"></div>
+    <div id="ui">
+      <div id="carga"><div class="giro"></div><p id="carga-texto">Preparando el laboratorio…</p></div>
+
+      <div id="menu" class="oculto">
+        <h1>🧪 Laboratorio Mágico IA</h1>
+        <p id="menu-sub" class="sub">✋ Levanta la mano y apunta a una actividad</p>
+        <div id="menu-zonas"></div>
+      </div>
+
+      <button id="volver" class="dwell oculto">⟵ Menú</button>
+      <header id="hud" class="oculto">
+        <h1 id="hud-titulo"></h1>
+        <p id="hud-instruccion"></p>
+        <div id="hud-stats"></div>
+      </header>
+
+      <div id="aviso" class="oculto"></div>
+      <div id="tarjetas" class="oculto"></div>
+      <div id="cursores"></div>
+      <div id="fps" class="oculto"></div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

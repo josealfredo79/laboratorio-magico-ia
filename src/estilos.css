@@ -1,0 +1,183 @@
+:root {
+  --fondo: #05060f;
+  --texto: #f4f6ff;
+  --tenue: #aab3d9;
+  --acento: #5ef2ff;
+  --acento2: #ff5ec8;
+  --ok: #5dff9d;
+  --error: #ff6b6b;
+  --panel: rgba(10, 14, 35, 0.74);
+  --borde: rgba(94, 242, 255, 0.35);
+}
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--fondo);
+  color: var(--texto);
+  font-family: "Segoe UI", system-ui, sans-serif;
+  cursor: none;
+}
+
+#camara {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scaleX(-1);
+  filter: brightness(0.5) saturate(1.15);
+}
+#lienzo, #ui { position: fixed; inset: 0; }
+#ui { pointer-events: none; }
+#ui button { pointer-events: auto; font: inherit; color: inherit; cursor: none; }
+.oculto { display: none !important; }
+
+/* ---------- Carga ---------- */
+#carga {
+  position: absolute; inset: 0;
+  display: grid; place-content: center; justify-items: center; gap: 24px;
+  background: var(--fondo);
+  font-size: 28px;
+}
+.giro {
+  width: 72px; height: 72px; border-radius: 50%;
+  border: 6px solid var(--borde); border-top-color: var(--acento);
+  animation: girar 1s linear infinite;
+}
+@keyframes girar { to { transform: rotate(1turn); } }
+
+/* ---------- Menú ---------- */
+#menu {
+  position: absolute; inset: 0;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 4vh 3vw; box-sizing: border-box;
+}
+#menu h1 {
+  margin: 0; font-size: clamp(36px, 5vw, 72px);
+  background: linear-gradient(90deg, var(--acento), var(--acento2));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.sub { font-size: clamp(20px, 2.2vw, 32px); margin: 8px 0 3vh; }
+#menu-zonas {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 2vw; width: 100%; max-width: 1700px;
+}
+.zona h2 { margin: 0 0 12px; font-size: clamp(22px, 2vw, 32px); text-align: center; }
+.zona { display: flex; flex-direction: column; gap: 14px; }
+.actividad {
+  position: relative; overflow: hidden;
+  display: flex; align-items: center; gap: 14px; text-align: left;
+  min-height: 110px; padding: 16px 20px;
+  background: var(--panel); border: 2px solid var(--borde); border-radius: 22px;
+  backdrop-filter: blur(6px);
+  transition: transform 0.15s, border-color 0.15s;
+}
+.actividad .icono { font-size: 48px; }
+.actividad b { display: block; font-size: 22px; }
+.actividad span.desc { color: var(--tenue); font-size: 16px; }
+.actividad.encima { transform: scale(1.04); border-color: var(--acento); box-shadow: 0 0 30px rgba(94,242,255,.35); }
+.actividad:disabled { opacity: 0.45; }
+.actividad:disabled::after {
+  content: "Próximamente"; position: absolute; top: 10px; right: -34px;
+  transform: rotate(35deg); background: var(--acento2); color: #000;
+  font-size: 12px; font-weight: 700; padding: 3px 40px;
+}
+
+/* ---------- HUD de modo ---------- */
+#volver {
+  position: absolute; top: 20px; left: 20px;
+  padding: 14px 24px; font-size: 22px;
+  background: var(--panel); border: 2px solid var(--borde); border-radius: 16px;
+}
+#volver.encima { border-color: var(--acento); }
+#hud {
+  position: absolute; top: 16px; left: 50%; transform: translateX(-50%);
+  width: min(900px, 70vw); text-align: center;
+  background: var(--panel); border: 2px solid var(--borde); border-radius: 22px;
+  padding: 12px 24px;
+}
+#hud h1 { margin: 0; font-size: clamp(26px, 2.6vw, 40px); }
+#hud p { margin: 6px 0; font-size: clamp(18px, 1.6vw, 26px); color: var(--tenue); }
+#hud-stats { font-size: clamp(18px, 1.5vw, 24px); font-weight: 600; }
+#hud-stats:empty { display: none; }
+
+/* ---------- Avisos y tarjetas ---------- */
+#aviso {
+  position: absolute; bottom: 6vh; left: 50%; transform: translateX(-50%);
+  max-width: 80vw; padding: 16px 30px; border-radius: 18px;
+  font-size: clamp(20px, 2vw, 30px); font-weight: 600; text-align: center;
+  background: var(--panel); border: 3px solid var(--acento);
+  animation: aparecer 0.25s ease-out;
+}
+#aviso.error { border-color: var(--error); }
+#aviso.ok { border-color: var(--ok); }
+@keyframes aparecer { from { opacity: 0; transform: translate(-50%, 20px); } }
+
+#tarjetas {
+  position: absolute; bottom: 4vh; left: 50%; transform: translateX(-50%);
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px;
+  width: min(1500px, 92vw);
+}
+.tarjeta {
+  display: flex; gap: 14px; align-items: flex-start;
+  background: var(--panel); border: 2px solid var(--borde); border-radius: 20px;
+  padding: 16px 20px; animation: aparecer2 0.4s ease-out both;
+}
+.tarjeta:nth-child(2) { animation-delay: 0.15s; }
+.tarjeta:nth-child(3) { animation-delay: 0.3s; }
+@keyframes aparecer2 { from { opacity: 0; transform: translateY(30px); } }
+.tarjeta .icono { font-size: 40px; line-height: 1; }
+.tarjeta b { display: block; font-size: clamp(18px, 1.5vw, 24px); margin-bottom: 4px; }
+.tarjeta p { margin: 0; font-size: clamp(16px, 1.3vw, 21px); color: var(--tenue); }
+.tarjeta.logro { border-color: var(--ok); }
+.tarjeta.carrera { border-color: var(--acento2); }
+
+/* ---------- Cursores de mano ---------- */
+.cursor {
+  position: fixed; left: 0; top: 0;
+  width: 50px; height: 50px; margin: -25px 0 0 -25px; border-radius: 50%;
+  border: 4px solid var(--acento);
+  box-shadow: 0 0 20px var(--acento);
+  background: conic-gradient(rgba(94, 242, 255, 0.6) calc(var(--p, 0) * 1turn), transparent 0);
+  transition: width 0.1s, height 0.1s, margin 0.1s;
+}
+.cursor.pellizco {
+  width: 30px; height: 30px; margin: -15px 0 0 -15px;
+  border-color: var(--acento2); box-shadow: 0 0 20px var(--acento2);
+}
+
+/* ---------- Modo científico ---------- */
+.barras { display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; text-align: left; margin-top: 8px; font-size: 18px; font-weight: 400; }
+.barra { height: 14px; border-radius: 7px; background: rgba(255,255,255,.12); overflow: hidden; align-self: center; }
+.barra i { display: block; height: 100%; background: linear-gradient(90deg, var(--acento), var(--acento2)); }
+
+#fps { position: absolute; bottom: 8px; right: 12px; font: 14px monospace; color: var(--tenue); }
+
+/* ---------- Botoneras dentro de actividades ---------- */
+.botonera { position: absolute; display: flex; gap: 14px; }
+.botonera.derecha { right: 20px; top: 50%; transform: translateY(-50%); flex-direction: column; }
+.botonera.centro { left: 50%; top: 60vh; transform: translateX(-50%); gap: 5vw; }
+.botonera button {
+  min-width: 190px; padding: 18px 26px;
+  font-size: clamp(20px, 1.8vw, 28px); font-weight: 600;
+  background: var(--panel); border: 2px solid var(--borde); border-radius: 18px;
+  transition: transform 0.15s, border-color 0.15s;
+}
+.botonera.centro button { min-width: 300px; padding: 30px 40px; font-size: clamp(26px, 2.6vw, 42px); }
+.botonera button.encima { transform: scale(1.06); border-color: var(--acento); }
+.botonera button.activo { border-color: var(--ok); background: rgba(93, 255, 157, 0.18); }
+
+/* ---------- Quiz ---------- */
+.quiz {
+  position: absolute; top: 24vh; left: 50%; transform: translateX(-50%);
+  width: min(1200px, 86vw); box-sizing: border-box; text-align: center;
+  font-size: clamp(28px, 3vw, 50px); font-weight: 700;
+  background: var(--panel); border: 2px solid var(--borde); border-radius: 26px;
+  padding: 30px 40px;
+  white-space: pre-line;
+}
+
+/* ---------- Rayos X: la cámara se ve como radiografía ---------- */
+body.rayosx #camara { filter: grayscale(1) invert(0.9) brightness(0.35) sepia(1) hue-rotate(170deg) saturate(2.5); }
