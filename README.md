@@ -17,6 +17,7 @@ Funciona **sin internet** y sin tocar nada: se controla con gestos.
 | 🫀 Biología | 👁️ ¿Cómo ve el ojo? | Pupila, cristalino y retina reaccionan a ti |
 | 🤖 IA | 🔬 ¿Cómo me ve la IA? | Los 21 puntos de tu mano y 478 de tu cara en vivo |
 | 🤖 IA | ❓ Quiz científico | Verdadero o falso con 👍 / 👎 |
+| 🎮 Arcade | ⚔️ Ninja de Elementos | Corta átomos con el dedo y forma compuestos: vidas, combos, poderes, 3 niveles, insignias y duelo de 2 jugadores |
 
 Incluye ranking del día, pantalla de bienvenida automática y modo quiosco para el stand.
 
@@ -36,6 +37,6 @@ npm run dev       # abre http://localhost:5173
 
 Sin cámara, el ratón funciona como mano (clic sostenido = pellizco).
 
-**Teclas:** `1`–`9` actividades · `Esc` menú · `F` FPS · `R` reiniciar ranking.
+**Teclas:** `1`–`9` y `0` actividades · `Esc` menú · `F` FPS · `R` reiniciar ranking.
 
 **Día de la feria:** ver [`feria/LEEME.md`](feria/LEEME.md).

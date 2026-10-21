@@ -92,7 +92,7 @@ async function arrancar() {
 
   document.getElementById("volver").addEventListener("click", () => activar(null));
 
-  // Teclas del operador: 1–9 modos, Esc menú, D modo científico, F fps, R reinicia el ranking.
+  // Teclas del operador: 1–9 y 0 modos, Esc menú, D modo científico, F fps, R reinicia el ranking.
   addEventListener("keydown", (e) => {
     if (e.key === "Escape") activar(null);
     else if (e.key.toLowerCase() === "r") {
@@ -100,7 +100,10 @@ async function arrancar() {
       panelMenu.pintar();
       hud.aviso("🏆 Ranking del día reiniciado", "ok");
     }
-    else if (e.key >= "1" && e.key <= "9" && DISPONIBLES[e.key - 1]) activar(DISPONIBLES[e.key - 1]);
+    else if (/^[0-9]$/.test(e.key)) {
+      const actividad = DISPONIBLES[e.key === "0" ? 9 : e.key - 1];
+      if (actividad) activar(actividad);
+    }
     else if (e.key.toLowerCase() === "d") activar(DISPONIBLES.find((m) => m.id === "cientifico"));
     else if (e.key.toLowerCase() === "f") document.getElementById("fps").classList.toggle("oculto");
   });

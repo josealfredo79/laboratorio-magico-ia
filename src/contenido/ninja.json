@@ -1,0 +1,12 @@
+{
+  "concepto": "Un compuesto une átomos en proporciones fijas: el agua siempre es 2 H + 1 O y la sal siempre 1 Na + 1 Cl.",
+  "compuestos": {
+    "H2O": "Una sola gota de agua tiene unos 1 670 trillones de moléculas de H₂O.",
+    "NaCl": "El sodio es un metal que explota en agua y el cloro un gas tóxico… ¡juntos forman la sal que comes!",
+    "CO2": "Cada persona exhala alrededor de 1 kg de CO₂ al día.",
+    "NH3": "El amoníaco huele muy fuerte: está en algunos limpiadores de vidrios.",
+    "CH4": "El metano no huele: al gas de cocina le agregan un olor para poder detectar fugas."
+  },
+  "bomba": "☢ El uranio es radiactivo: en las plantas nucleares se usa para generar electricidad.",
+  "carreras": "Ingeniería Química · Química Farmacéutico-Biológica · Ciencia de Materiales"
+}

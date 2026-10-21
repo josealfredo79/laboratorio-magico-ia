@@ -15,7 +15,7 @@
 | Tecla | Qué hace |
 |---|---|
 | `Esc` | Volver al menú |
-| `1`–`9` | Ir directo a una actividad |
+| `1`–`9`, `0` | Ir directo a una actividad (`0` = Ninja de Elementos) |
 | `F` | Ver FPS (debe ser 30 o más) |
 | `R` | Reiniciar el ranking del día |
 | `D` | Modo "¿Cómo me ve la IA?" |

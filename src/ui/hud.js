@@ -56,6 +56,9 @@ export function crearHud() {
 
     // { logro: [titulo, texto], dato: [titulo, texto], carrera: [titulo, texto] }
     tarjetas(contenido) {
+      // Las tarjetas ocupan la parte de abajo: se quita el aviso para que no se encimen.
+      clearTimeout(temporizadorAviso);
+      $("aviso").classList.add("oculto");
       const contenedor = $("tarjetas");
       contenedor.replaceChildren();
       const iconos = { logro: "✅", dato: "💡", carrera: "🎓" };

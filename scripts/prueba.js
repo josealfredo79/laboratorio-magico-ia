@@ -79,6 +79,35 @@ await espera(800);
 comprobar(/Correcto|Incorrecto/.test(await pagina.textContent("#aviso")), "Quiz: respuesta evaluada");
 await captura("8-quiz");
 
+// ---------- Ninja de Elementos ----------
+const ninja = (f) => pagina.evaluate(f);
+await ir("ninja");
+await espera(800);
+await pagina.click(".botonera button:first-child"); // 1 jugador
+for (let t = 0; t < 80 && (await ninja(() => window.__lab.modo.estado.fase)) !== "jugando"; t++) await espera(500);
+let puntosNinja = 0;
+for (let intento = 0; intento < 30 && puntosNinja === 0; intento++) {
+  const atomo = await ninja(() => {
+    const o = window.__lab.modo.estado.objetos.find((o) => o.userData.tipo === "atomo" && Math.abs(o.position.y) < 3);
+    return o ? window.__lab.ctx.mundoAPantalla(o.position) : null;
+  });
+  if (!atomo) { await espera(400); continue; }
+  // Tajo vertical rápido a través del átomo.
+  await pagina.mouse.move(atomo.x, atomo.y - 220);
+  await espera(700);
+  await pagina.mouse.move(atomo.x, atomo.y + 220);
+  await espera(700);
+  puntosNinja = await ninja(() => window.__lab.modo.estado.jugadores[0].puntos);
+}
+comprobar(puntosNinja > 0, "Ninja: cortar un átomo da puntos");
+await captura("12-ninja");
+await ninja(() => (window.__lab.modo.estado.vidas = 1)); // el siguiente átomo que escape termina el juego
+for (let t = 0; t < 120 && (await ninja(() => window.__lab.modo.estado.fase)) !== "fin"; t++) await espera(500);
+comprobar(/pts/.test(await pagina.textContent(".tarjeta.logro")), "Ninja: fin del juego con puntaje en el ranking");
+await pagina.click(".botonera button:nth-child(2)"); // revancha en duelo
+await espera(1000);
+comprobar(await ninja(() => window.__lab.modo.estado.duelo), "Ninja: modo duelo de 2 jugadores");
+
 // ---------- Partida completa de moléculas ----------
 await ir("moleculas");
 await espera(600);
