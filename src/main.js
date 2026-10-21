@@ -34,18 +34,60 @@ function mantenerPantallaEncendida() {
   navigator.wakeLock?.request("screen").catch(() => {});
 }
 
-async function arrancar() {
-  hud.carga("📷 Encendiendo la cámara…");
-  try {
-    await iniciarCamara(video);
-    fijarAspecto(video.videoWidth / video.videoHeight);
-  } catch (error) {
-    console.warn("Sin cámara: se usará el ratón", error);
-    hud.aviso("📷 No hay cámara: usa el ratón (clic = pellizco)", "error", 6000);
-  }
+// Si el permiso de cámara no se responde en este tiempo, se sigue sin ella
+// (si luego se concede, la cámara se conecta sola).
+const ESPERA_CAMARA = 25000;
 
-  hud.carga("🧠 Cargando la inteligencia artificial…");
-  const detector = await crearDetector();
+// Pantalla de carga con los segundos transcurridos, para que se note que avanza.
+function crearEtapas() {
+  let texto = "";
+  let inicio = 0;
+  const pintar = () => {
+    const segundos = Math.floor((performance.now() - inicio) / 1000);
+    hud.carga(segundos >= 3 ? `${texto} (${segundos} s)` : texto);
+  };
+  const reloj = setInterval(pintar, 1000);
+  return {
+    etapa(nuevo) {
+      texto = nuevo;
+      inicio = performance.now();
+      pintar();
+    },
+    detalle(nuevo) {
+      texto = nuevo;
+      pintar();
+    },
+    terminar() {
+      clearInterval(reloj);
+      hud.carga(null);
+    },
+    fallar(mensaje) {
+      clearInterval(reloj);
+      hud.carga(mensaje);
+    },
+  };
+}
+
+const carga = crearEtapas();
+
+async function arrancar() {
+  carga.etapa("📷 Permite el acceso a la cámara…");
+  const camara = iniciarCamara(video).then(() => fijarAspecto(video.videoWidth / video.videoHeight));
+  const sinRespuesta = new Promise((_, rechazar) =>
+    setTimeout(() => rechazar(new Error("no se respondió el permiso")), ESPERA_CAMARA),
+  );
+  try {
+    await Promise.race([camara, sinRespuesta]);
+  } catch (error) {
+    console.warn("Sin cámara: se usará el ratón o el dedo", error);
+    hud.aviso("📷 Sin cámara: usa el ratón o tu dedo en la pantalla", "error", 6000);
+  }
+  camara.catch(() => {}); // si el permiso llega tarde, no es un error
+
+  carga.etapa("🧠 Descargando la inteligencia artificial… 0 %");
+  const detector = await crearDetector((fraccion) =>
+    carga.detalle(`🧠 Descargando la inteligencia artificial… ${Math.round(fraccion * 100)} %`),
+  );
   const escena = crearEscena(document.getElementById("lienzo"), video);
   const raton = crearRaton(escena);
   const cursores = crearCursores();
@@ -115,7 +157,7 @@ async function arrancar() {
     else if (e.key.toLowerCase() === "f") document.getElementById("fps").classList.toggle("oculto");
   });
 
-  hud.carga(null);
+  carga.terminar();
   menu.mostrar();
   panelMenu.pintar();
   mantenerPantallaEncendida();
@@ -195,5 +237,5 @@ async function arrancar() {
 
 arrancar().catch((error) => {
   console.error(error);
-  hud.carga(`⚠️ Error al iniciar: ${error.message}`);
+  carga.fallar(`⚠️ Error al iniciar: ${error.message}. Recarga la página para intentar de nuevo.`);
 });
