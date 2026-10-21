@@ -15,7 +15,8 @@ import { MODOS, DISPONIBLES } from "./modos/index.js";
 const video = document.getElementById("camara");
 const hud = crearHud();
 
-// Sin nadie frente a la cámara: tras 20 s en el menú sale la bienvenida,
+// La app abre en la bienvenida; al detectar a alguien pasa al menú.
+// Sin nadie frente a la cámara: tras 20 s en el menú vuelve la bienvenida,
 // y tras 60 s dentro de una actividad se vuelve al menú.
 const BIENVENIDA_TRAS = 20000;
 const SALIR_DE_ACTIVIDAD_TRAS = 60000;
@@ -117,7 +118,8 @@ async function arrancar() {
   });
 
   let previo = performance.now();
-  let ultimaPresencia = previo;
+  // Arranca "sin nadie" para que lo primero que se vea sea la bienvenida.
+  let ultimaPresencia = -Infinity;
   let cuadros = 0;
   let inicioFps = previo;
 

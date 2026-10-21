@@ -172,17 +172,19 @@ console.log(enMenu ? "✔ Esc vuelve al menú" : "✘ Esc no volvió al menú");
 comprobar((await pagina.textContent("#menu-ranking")).includes("pts"), "Menú: muestra el ranking del día");
 await captura("9-menu-ranking");
 
-// Pantalla de bienvenida: sin ?prueba aparece tras 20 s sin nadie frente a la cámara.
+// Pantalla de bienvenida: sin ?prueba es lo primero que se ve al abrir la app.
 await pagina.goto(URL.replace("?prueba", ""));
 await pagina.waitForSelector("#carga.oculto", { state: "attached", timeout: 60000 });
-await espera(24000);
-comprobar(await pagina.isVisible("#bienvenida"), "Bienvenida: aparece cuando nadie juega");
+await espera(1500);
+comprobar(await pagina.isVisible("#bienvenida"), "Bienvenida: es lo primero al abrir la app");
 comprobar((await pagina.textContent("#bienvenida-ranking")).includes("pts"), "Bienvenida: muestra el ranking");
 await captura("10-bienvenida");
 await pagina.mouse.move(400, 400);
 await pagina.mouse.move(800, 500, { steps: 5 });
 await espera(1500);
 comprobar(!(await pagina.isVisible("#bienvenida")) && (await pagina.isVisible("#menu")), "Bienvenida: se quita al detectar a alguien");
+await espera(25000); // el ratón deja de contar a los 3 s; la bienvenida vuelve a los 20 s
+comprobar(await pagina.isVisible("#bienvenida"), "Bienvenida: vuelve cuando nadie juega");
 
 await navegador.close();
 if (errores.length) {

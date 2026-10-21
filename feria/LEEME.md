@@ -21,7 +21,7 @@
 | `D` | Modo "¿Cómo me ve la IA?" |
 
 ## Funciona solo
-- Si nadie juega 20 s en el menú → aparece la **pantalla de bienvenida** (átomo 3D, datos curiosos y ranking).
+- Al abrir, se ve la **pantalla de bienvenida** (átomo 3D, datos curiosos y ranking); al levantar la mano pasa al menú. Si nadie juega 20 s, vuelve.
 - Si alguien deja una actividad a medias 60 s → vuelve al menú.
 - El **ranking del día** se guarda en la laptop y empieza vacío cada día.
 - No necesita internet.
