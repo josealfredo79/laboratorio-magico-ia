@@ -4,6 +4,9 @@ App web interactiva para ferias vocacionales: **la cámara web reconoce tus mano
 
 Funciona **sin internet** y sin tocar nada: se controla con gestos.
 
+### ▶️ [Pruébalo en línea](https://josealfredo79.github.io/laboratorio-magico-ia/)
+Ábrelo en Chrome en una computadora con cámara web y permite el acceso a la cámara. La primera carga descarga unos 60 MB de modelos de IA.
+
 ## Actividades
 
 | Zona | Actividad | Cómo se juega |

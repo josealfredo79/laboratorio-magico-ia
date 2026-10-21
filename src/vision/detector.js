@@ -16,9 +16,12 @@ async function crearTarea(Clase, vision, modelo, opciones) {
   }
 }
 
+// BASE_URL respeta la subcarpeta de GitHub Pages ("./" en la versión publicada).
+const BASE = import.meta.env.BASE_URL;
+
 export async function crearDetector() {
-  const vision = await FilesetResolver.forVisionTasks("/wasm");
-  const manos = await crearTarea(HandLandmarker, vision, "/models/hand_landmarker.task", {
+  const vision = await FilesetResolver.forVisionTasks(`${BASE}wasm`);
+  const manos = await crearTarea(HandLandmarker, vision, `${BASE}models/hand_landmarker.task`, {
     numHands: 2,
     minHandDetectionConfidence: 0.6,
     minHandPresenceConfidence: 0.5,
@@ -34,7 +37,7 @@ export async function crearDetector() {
   return {
     // La cara se carga solo cuando un modo la necesita (ahorra GPU).
     asegurarCara() {
-      cargandoCara ??= crearTarea(FaceLandmarker, vision, "/models/face_landmarker.task", {
+      cargandoCara ??= crearTarea(FaceLandmarker, vision, `${BASE}models/face_landmarker.task`, {
         numFaces: 1,
         outputFaceBlendshapes: true,
       }).then((tarea) => (cara = tarea));
@@ -42,7 +45,7 @@ export async function crearDetector() {
     },
 
     asegurarPose() {
-      cargandoPose ??= crearTarea(PoseLandmarker, vision, "/models/pose_landmarker_lite.task", {
+      cargandoPose ??= crearTarea(PoseLandmarker, vision, `${BASE}models/pose_landmarker_lite.task`, {
         numPoses: 1,
       }).then((tarea) => (pose = tarea));
       return cargandoPose;
