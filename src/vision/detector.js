@@ -11,19 +11,27 @@ const conLimite = (promesa, ms) =>
 async function descargar(url, alAvanzar) {
   const respuesta = await fetch(url);
   if (!respuesta.ok) throw new Error(`no se pudo descargar ${url.split("/").pop()} (HTTP ${respuesta.status})`);
+  // Ojo: si el servidor comprime (GitHub Pages lo hace), content-length es el tamaño
+  // comprimido y llegan MÁS bytes que eso. Por eso se juntan trozos y el % se limita a 99.
   const total = Number(respuesta.headers.get("content-length")) || 0;
   if (!respuesta.body || !total) return new Uint8Array(await respuesta.arrayBuffer());
   const lector = respuesta.body.getReader();
-  const datos = new Uint8Array(total);
+  const trozos = [];
   let recibido = 0;
   for (;;) {
     const { done, value } = await lector.read();
     if (done) break;
-    datos.set(value, recibido);
+    trozos.push(value);
     recibido += value.length;
-    alAvanzar?.(recibido / total);
+    alAvanzar?.(Math.min(recibido / total, 0.99));
   }
-  return datos.subarray(0, recibido);
+  const datos = new Uint8Array(recibido);
+  let posicion = 0;
+  for (const trozo of trozos) {
+    datos.set(trozo, posicion);
+    posicion += trozo.length;
+  }
+  return datos;
 }
 
 async function crearTarea(Clase, vision, modelo, opciones) {
