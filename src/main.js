@@ -12,6 +12,12 @@ import { ranking, crearPanelRanking } from "./ui/ranking.js";
 import { crearBienvenida } from "./ui/bienvenida.js";
 import { MODOS, DISPONIBLES } from "./modos/index.js";
 
+// Avisa al vigilante de index.html que el programa sí cargó.
+window.__labArranco = true;
+try {
+  sessionStorage.removeItem("lab-recarga");
+} catch {}
+
 const video = document.getElementById("camara");
 const hud = crearHud();
 

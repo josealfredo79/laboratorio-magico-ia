@@ -4,6 +4,34 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Laboratorio Mágico IA</title>
+    <script>
+      // Vigilante de arranque. GitHub Pages guarda la página 10 min en el navegador; tras
+      // publicar una versión nueva, esa copia vieja apunta a un .js que ya no existe y la app
+      // se quedaría cargando para siempre. Si el programa no arranca, se recarga una vez sin
+      // caché; si vuelve a fallar, se explica qué hacer en lugar de girar sin fin.
+      (function () {
+        function fallo(motivo) {
+          if (window.__labArranco) return;
+          var yaRecargo = false;
+          try {
+            yaRecargo = sessionStorage.getItem("lab-recarga") === "1";
+            sessionStorage.setItem("lab-recarga", "1");
+          } catch (e) {}
+          if (!yaRecargo) {
+            var params = new URLSearchParams(location.search);
+            params.set("v", Date.now());
+            location.replace(location.pathname + "?" + params + location.hash);
+            return;
+          }
+          var texto = document.getElementById("carga-texto");
+          if (texto) texto.innerHTML = "⚠️ No se pudo iniciar (" + motivo + ").<br>Presiona <b>Ctrl + Shift + R</b> para recargar.";
+        }
+        window.addEventListener("error", function (e) {
+          fallo(e.target && e.target.tagName === "SCRIPT" ? "no cargó el programa" : e.message);
+        }, true);
+        setTimeout(function () { fallo("tardó demasiado en cargar"); }, 20000);
+      })();
+    </script>
   </head>
   <body>
     <video id="camara" playsinline muted></video>
